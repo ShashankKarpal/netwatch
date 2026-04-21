@@ -37,6 +37,8 @@ use crate::translations::translations_2::{
 use crate::translations::translations_5::{only_show_blacklisted_translation, program_translation};
 use crate::utils::types::icon::Icon;
 use crate::{Language, RunningPage, Sniffer, StyleType};
+use crate::trust::classify;
+use crate::trust::trust_level::TrustLevel;
 
 /// Computes the body of gui inspect page
 pub fn inspect_page(sniffer: &Sniffer) -> Container<'_, Message, StyleType> {
@@ -104,7 +106,7 @@ fn report<'a>(sniffer: &Sniffer) -> Column<'a, Message, StyleType> {
     let end_entry_num = start_entry_num + search_results.len() - 1;
     for (key, val) in search_results {
         scroll_report = scroll_report.push(
-            button(row_report_entry(key, val, data_repr))
+            button(row_report_entry(key, val, data_repr, &sniffer.trust_db, &sniffer.trust_rules))
                 .padding(2)
                 .on_press(Message::ShowModal(MyModal::ConnectionDetails(*key)))
                 .class(ButtonType::Neutral),
@@ -248,6 +250,8 @@ fn row_report_entry<'a>(
     key: &AddressPortPair,
     val: &InfoAddressPortPair,
     data_repr: DataRepr,
+    trust_db: &crate::trust::trust_db::TrustDb,
+    trust_rules: &crate::trust::trust_rules::TrustRules,
 ) -> Row<'a, Message, StyleType> {
     let text_type = if val.traffic_direction == TrafficDirection::Outgoing {
         TextType::Outgoing
@@ -255,7 +259,23 @@ fn row_report_entry<'a>(
         TextType::Incoming
     };
 
-    let mut ret_val = Row::new().align_y(Alignment::Center);
+    let program_name = val.program.to_string();
+    let dest_str = key.dest.to_string();
+    let trust_level = classify(&program_name, &dest_str, trust_db, trust_rules);
+
+    let trust_label = match trust_level {
+        TrustLevel::Expected => "✅",
+        TrustLevel::New => "🟡",
+        TrustLevel::Flagged => "🔴",
+    };
+
+    let trust_badge = Container::new(
+        Text::new(trust_label).size(12),
+    )
+    .align_x(Alignment::Center)
+    .width(30);
+
+    let mut ret_val = Row::new().align_y(Alignment::Center).push(trust_badge);
 
     for report_col in ReportCol::ALL {
         let max_chars = report_col.get_max_chars(None);
