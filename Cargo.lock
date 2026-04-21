@@ -5008,6 +5008,7 @@ dependencies = [
  "clap",
  "confy",
  "ctrlc",
+ "dirs",
  "dns-lookup",
  "etherparse",
  "gag",

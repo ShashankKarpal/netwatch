@@ -43,6 +43,7 @@ chrono = "0.4.44"
 clap = { version = "4.6.0", features = ["derive"] }
 confy = "2.0.0"
 ctrlc = { version = "3.5.2", features = ["termination"] }
+dirs = "6.0.0"
 dns-lookup = "3.0.1"
 etherparse = "0.19.0"
 iced = { version = "0.14.0", features = ["tokio", "svg", "advanced", "lazy", "image"] }
@@ -81,7 +82,7 @@ phf_codegen = "0.13.1"
 phf_shared = "0.13.1"
 rustrict = { version = "0.7.38", default-features = false, features = ["censor"] }
 
-[target."cfg(windows)".build-dependencies]
+[target.'cfg(windows)'.build-dependencies]
 winres = "0.1.12"
 
 #═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
