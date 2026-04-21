@@ -13,15 +13,21 @@
 - Created v0.1-trust-view branch
 - Added FORK_README.md with upstream credit and behavior-first roadmap
 - Created CLAUDE.md and full docs/ folder (markdown OS)
+- Completed codebase audit: mapped data model, GUI rendering pipeline, and exact injection point
+- Key finding: row_report_entry() at line 247 of inspect_page.rs is where trust badges get added
+- Key finding: InfoAddressPortPair.program gives us the app name, AddressPortPair.dest gives us the destination IP
 
 ## What is next
 
-1. Commit and push the docs structure
-2. Codebase audit: map Sniffnet's source tree to understand where the trust view layer should be injected
-3. Identify the exact Rust files that handle the connection list UI rendering
-4. Design the trust database JSON schema
-5. Implement the trust classification logic
-6. Add the Trust View UI overlay
+1. Create the src/trust/ module (trust_db.rs, trust_rules.rs, trust_level.rs)
+2. Define the TrustLevel enum (Expected, New, Flagged)
+3. Build the trust database loader (read/write ~/.config/netwatch/trust.json)
+4. Build the rules loader (read ~/.config/netwatch/rules.json)
+5. Write the classify() function that takes (program, dest_ip) and returns a TrustLevel
+6. Inject trust badge into row_report_entry() in inspect_page.rs
+7. Add "Mark as Expected" action on New connections
+8. Create default rules.json with LM Studio localhost-only rule
+9. Test with real traffic
 
 ## Blockers
 
@@ -30,5 +36,6 @@ None.
 ## Warnings
 
 - Shanky is non-technical. All code must be written by Claude and delivered as Terminal commands.
-- Do not skip the codebase audit. Understanding Sniffnet's architecture before writing code prevents wasted effort.
-- The iced GUI framework has its own patterns. UI changes must follow iced conventions.
+- Do not skip testing after each code change. Build and run after every modification.
+- The iced GUI framework requires following its widget patterns. Do not use raw HTML or CSS thinking.
+- Trust database writes must work without root even though the app runs with sudo.
