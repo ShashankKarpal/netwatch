@@ -33,6 +33,7 @@ mod networking;
 mod notifications;
 mod report;
 mod translations;
+mod trust;
 mod utils;
 
 pub const SNIFFNET_LOWERCASE: &str = "sniffnet";
