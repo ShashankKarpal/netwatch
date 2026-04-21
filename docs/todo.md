@@ -2,13 +2,13 @@
 
 ## Must-have (v0.1)
 
-- [ ] Commit and push docs structure
-- [ ] Codebase audit: map src/ directory and identify key modules
-- [ ] Identify where connection data is rendered in the UI
+- [x] Commit and push docs structure
+- [x] Codebase audit: map src/ directory and identify key modules
+- [x] Identify where connection data is rendered in the UI
 - [ ] Design trust database schema (JSON)
 - [ ] Design flagging rules schema (JSON)
-- [ ] Implement trust classification logic in Rust
-- [ ] Add Trust View color-coded overlay to the connection list
+- [x] Implement trust classification logic in Rust
+- [x] Add Trust View color-coded overlay to the connection list
 - [ ] Add "Mark as Expected" action on New connections
 - [ ] Create default rules file with LM Studio localhost-only rule
 - [ ] Test with real traffic for one work session
