@@ -56,6 +56,8 @@ use crate::utils::error_logger::{ErrorLogger, Location};
 use crate::utils::types::file_info::FileInfo;
 use crate::utils::types::icon::Icon;
 use crate::utils::types::web_page::WebPage;
+use crate::trust::trust_db::TrustDb;
+use crate::trust::trust_rules::TrustRules;
 use crate::{StyleType, TrafficChart, location};
 use async_channel::Receiver;
 use iced::Event::{Keyboard, Window};
@@ -142,6 +144,10 @@ pub struct Sniffer {
     pub freeze_tx: Option<tokio::sync::broadcast::Sender<()>>,
     /// State of the port to program lookups
     pub program_lookup: Option<ProgramLookup>,
+    /// Trust database for connection classification
+    pub trust_db: TrustDb,
+    /// Flagging rules for restricted programs
+    pub trust_rules: TrustRules,
 }
 
 impl Sniffer {
@@ -189,6 +195,8 @@ impl Sniffer {
             frozen: false,
             freeze_tx: None,
             program_lookup: None,
+            trust_db: TrustDb::load(),
+            trust_rules: TrustRules::load(),
         }
     }
 
