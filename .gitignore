@@ -61,3 +61,10 @@ node_modules
 package.json
 yarn.lock
 *.bkp
+
+### Netwatch local ###
+*.env
+.env*
+config.local.*
+secrets.*
+docs/private/
