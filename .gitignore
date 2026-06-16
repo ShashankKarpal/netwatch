@@ -68,3 +68,11 @@ yarn.lock
 config.local.*
 secrets.*
 docs/private/
+
+# --- hardened additions ---
+tokens.json
+*.key
+*.pem
+*.token
+trust.json
+docs/observation-log.md
