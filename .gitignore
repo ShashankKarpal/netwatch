@@ -76,3 +76,14 @@ tokens.json
 *.token
 trust.json
 docs/observation-log.md
+
+# hardening baseline
+*.log
+*.db
+*.sqlite
+credentials.*
+*.bak
+config.json
+local_settings.py
+__pycache__/
+*.pyc
