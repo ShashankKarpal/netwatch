@@ -99,3 +99,8 @@ id_ecdsa
 .aws/
 service-account*.json
 *.sqlite3
+
+# internal working notes stay local (audit follow-up 2026-07-28)
+CLAUDE.md
+docs/session-handoff.md
+docs/worklog.md
