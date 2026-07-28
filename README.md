@@ -3,11 +3,11 @@
 <p align="center"><b>A trust-aware fork of Sniffnet that classifies every connection as Expected, New, or Flagged.</b></p>
 
 <p align="center">
-  <img alt="Fork" src="https://img.shields.io/badge/fork%20of-GyulyVGC%2Fsniffnet-8B9690?style=flat-square">
-  <img alt="Platform" src="https://img.shields.io/badge/platform-macOS-3AA76D?style=flat-square">
-  <img alt="Status" src="https://img.shields.io/badge/status-v0.1%20trust%20view-3AA76D?style=flat-square">
-  <img alt="Stack" src="https://img.shields.io/badge/built%20with-Rust-8B9690?style=flat-square">
-  <a href="LICENSE-MIT"><img alt="License" src="https://img.shields.io/badge/license-MIT%20%C2%B7%20Apache--2.0-8B9690?style=flat-square"></a>
+  <img alt="Fork" src="https://img.shields.io/badge/fork%20of-GyulyVGC%2Fsniffnet-1C1B1D?style=flat-square">
+  <img alt="Platform" src="https://img.shields.io/badge/platform-macOS-1C1B1D?style=flat-square">
+  <img alt="Status" src="https://img.shields.io/badge/status-v0.1%20trust%20view-1C1B1D?style=flat-square">
+  <img alt="Stack" src="https://img.shields.io/badge/built%20with-Rust-1C1B1D?style=flat-square">
+  <a href="LICENSE-MIT"><img alt="License" src="https://img.shields.io/badge/license-MIT%20%C2%B7%20Apache--2.0-1C1B1D?style=flat-square"></a>
 </p>
 
 ## Attribution
