@@ -1,58 +1,86 @@
-# Netwatch
+<h1 align="center">Netwatch</h1>
 
-A trust-aware network monitor for macOS. Built on top of [Sniffnet](https://github.com/GyulyVGC/sniffnet) by [Giuliano Bellini](https://github.com/GyulyVGC).
+<p align="center"><b>A trust-aware fork of Sniffnet that classifies every connection as Expected, New, or Flagged.</b></p>
 
-## What this does
+<p align="center">
+  <img alt="Fork" src="https://img.shields.io/badge/fork%20of-GyulyVGC%2Fsniffnet-8B9690?style=flat-square">
+  <img alt="Platform" src="https://img.shields.io/badge/platform-macOS-3AA76D?style=flat-square">
+  <img alt="Status" src="https://img.shields.io/badge/status-v0.1%20trust%20view-3AA76D?style=flat-square">
+  <img alt="Stack" src="https://img.shields.io/badge/built%20with-Rust-8B9690?style=flat-square">
+  <a href="LICENSE-MIT"><img alt="License" src="https://img.shields.io/badge/license-MIT%20%C2%B7%20Apache--2.0-8B9690?style=flat-square"></a>
+</p>
 
-Netwatch answers one question at a glance: **"Is my Mac doing anything on the network that I do not expect right now?"**
+## Attribution
 
-It classifies every active connection into three buckets:
+Forked from [GyulyVGC/sniffnet](https://github.com/GyulyVGC/sniffnet). Full credit to [Giuliano Bellini](https://github.com/GyulyVGC) for building Sniffnet and maintaining it as a free, open-source network monitor. Everything below describes only what this fork adds; every other feature, and all of the packet-capture engine, is upstream work. Changes worth contributing back will be submitted as pull requests rather than kept here.
 
-- **Expected** (green): App-to-host pairings you have seen before and marked as normal
-- **New** (amber): Any app-to-host pairing seen for the first time
-- **Flagged** (red): Connections matching rules you set (e.g., "LM Studio should never connect to anything except localhost")
+## What this fork adds
 
-This is not a firewall. It does not block anything. It gives you visibility and judgment in seconds, not minutes.
+- Classifies every active connection into Expected, New, or Flagged.
+- Shows the classification as a colored badge inline in the Inspect tab.
+- Remembers app-to-host pairings you have marked normal, in a local trust database.
+- Answers one question at a glance: is this Mac doing anything on the network that you do not expect.
 
-## Why this exists
+## Features
 
-Modern Macs run dozens of background processes making network connections: browsers, chat apps, cloud sync, update checkers, telemetry, local AI tools. There is no simple way to know whether all of this is expected or whether something is quietly phoning home.
+### Trust layer (this fork)
 
-Existing tools either show raw packet data (unusable without deep networking knowledge) or cost money and require complex configuration. Netwatch fills the gap: free, open source, and opinionated toward trust classification.
+- **Trust classification.** Every connection resolves to Expected (green), New (amber), or Flagged (red).
+- **Trust database.** App-to-host pairings persist locally between sessions.
+- **Trust rules.** User-defined rules flag connections that should never happen, for example a local model server reaching anything other than localhost.
+- **Inline badges.** Classification renders per row in the Inspect tab, not on a separate screen.
+- **Empty-state behavior.** With no trust database, everything reads New, which is the correct default.
 
-## Development philosophy
+### Not in this fork
 
-This project follows a behavior-first development framework. Every version must prove that a specific human behavior has changed. Not "I added a feature." But "the user is now doing X that they were not doing before."
+- No firewall and no blocking. This is visibility, not enforcement.
+- No historical logging, per-VPN breakdown, bandwidth charts, notifications, or automation. All deliberately out of scope for v0.1.
 
-The full user loop:
+## Stack
 
-**Entry > Awareness > Judgment > Action > Return > Habit**
+- Language: Rust
+- Capture: libpcap, ships with macOS
+- Fork-specific module: `src/trust/` (TrustLevel, TrustDb, TrustRules, classify)
 
-Each version strengthens one part of this loop. If a feature does not strengthen the loop, it does not belong in that version.
+## Install
+
+Requires: Rust and Cargo. macOS has all native dependencies.
+
+```bash
+git clone https://github.com/ShashankKarpal/netwatch.git
+cd netwatch
+cargo build --release
+sudo cargo run --release
+```
+
+Root privileges are required for packet capture; macOS will prompt on launch.
+
+## Project structure
+
+```
+src/trust/          this fork: TrustLevel, TrustDb, TrustRules, classify()
+src/gui/            upstream GUI, with trust badges injected in inspect_page.rs
+src/networking/     upstream capture and parsing
+resources/          upstream assets
+```
 
 ## Roadmap
 
+Every version must prove one human behavior changed, not that a feature shipped.
+
 | Version | Loop stage | Behavior to prove | Status |
-|---------|------------|-------------------|--------|
-| v0.1 | Entry | I open this app at least once per work session without being reminded, because it answers a question I already have | In progress |
-| v0.2 | Return | After a triggering event (new app, VPN switch, new LLM model), I reopen the app because last time it told me something useful | Not started |
-| v0.3 | Action | I take a concrete action (investigate, flag, mark safe) because of something the app surfaced | Not started |
-| v1.0 | Habit | This is now part of how I operate my Mac. I check it after installing anything new | Not started |
-
-## Build instructions
-
-Requires Rust and Cargo. macOS has all native dependencies (libpcap ships with the OS).
-cargo build --release
-sudo cargo run --release
-
-Root privileges are required for packet capture on macOS. The app will prompt for your system password on launch.
-
-## Credits
-
-Netwatch is a fork of [Sniffnet](https://github.com/GyulyVGC/sniffnet), created and maintained by [Giuliano Bellini](https://github.com/GyulyVGC). Full credit to Giuliano for building Sniffnet as a free, open-source network monitor over 4 years and 2,700+ commits. The packet capture engine, GUI framework, protocol analysis, and geolocation features are entirely his work.
-
-Netwatch adds a trust classification layer on top of Sniffnet's foundation. This fork exists to experiment freely, not to fragment the project. Any changes worth contributing back will go upstream as PRs.
+|---|---|---|---|
+| v0.1 | Entry | The app is opened once per work session, unprompted, because it answers a question already being asked | In progress |
+| v0.2 | Return | The app is reopened after a triggering event, because last time it was useful | Planned |
+| v0.3 | Action | A concrete action is taken because of something the app surfaced | Planned |
+| v1.0 | Habit | The app is checked after installing anything new | Planned |
 
 ## License
 
-Dual-licensed under MIT and Apache 2.0, same as upstream.
+MIT and Apache-2.0, inherited from upstream. See [LICENSE-MIT](LICENSE-MIT) and [LICENSE-APACHE](LICENSE-APACHE).
+
+## Author
+
+Fork maintained by Shashank Karpal. Upstream by Giuliano Bellini.
+
+> Trust layer designed and built with Claude (Anthropic).
