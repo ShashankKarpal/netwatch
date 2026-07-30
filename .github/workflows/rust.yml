@@ -20,7 +20,9 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: dtolnay/rust-toolchain@stable
+      # Pinned to match the local dev toolchain on the M4 Pro.
+      # Bump this and the local `rustup update` together, then fix new lints in one commit.
+      - uses: dtolnay/rust-toolchain@1.96.0
         with:
           components: rustfmt, clippy
 
