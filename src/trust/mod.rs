@@ -7,12 +7,7 @@ use crate::trust::trust_level::TrustLevel;
 use crate::trust::trust_rules::TrustRules;
 
 /// Classify a connection based on the trust database and flagging rules.
-pub fn classify(
-    program: &str,
-    dest: &str,
-    trust_db: &TrustDb,
-    rules: &TrustRules,
-) -> TrustLevel {
+pub fn classify(program: &str, dest: &str, trust_db: &TrustDb, rules: &TrustRules) -> TrustLevel {
     // Flagging rules take priority
     if rules.is_flagged(program, dest) {
         return TrustLevel::Flagged;

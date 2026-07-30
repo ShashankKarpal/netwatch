@@ -1,4 +1,8 @@
-use crate::trust::trust_level::TrustLevel;
+// TrustDb is implemented but not yet wired into the packet pipeline.
+// See the fork gates in ROADMAP.md. Remove this attribute once classify()
+// is called from sniffer.rs and these items go live.
+#![expect(dead_code)]
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use std::fs;
