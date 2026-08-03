@@ -1,0 +1,22 @@
+# gitleaks configuration for ShashankKarpal/netwatch (fork of GyulyVGC/sniffnet)
+#
+# This fork scans the full upstream history (~4,600 commits), so upstream's own
+# files show up in results. Allowlist entries below are for UPSTREAM false
+# positives only. Never add an entry here to silence a finding in one of our
+# own commits: fix the commit instead.
+
+title = "netwatch (sniffnet fork)"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+adsfund.json is an ads.fund project verification file added upstream by
+GyulyVGC on 2025-07-12 (commit 0dfda61 / d547378, "add verification for
+ads.fund"). The strings gitleaks flags as a generic-api-key are a public
+Ethereum wallet address and token contract address. Blockchain addresses are
+public identifiers by design, not credentials, and the file is published
+deliberately by upstream so ads.fund can verify the project. Nothing to rotate.
+"""
+paths = ['''^adsfund\.json$''']
