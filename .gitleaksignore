@@ -1,0 +1,9 @@
+# gitleaks false-positive fingerprints for ShashankKarpal/netwatch
+#
+# Format: <commit-sha>:<path>:<rule-id>:<start-line>
+#
+# adsfund.json: ads.fund project verification file added upstream by GyulyVGC
+# on 2025-07-12. The flagged strings are a public Ethereum wallet address and
+# token contract address, which are public identifiers by design, not secrets.
+# Nothing to rotate. See .gitleaks.toml for the full rationale.
+0dfda61d5984120c22c3f05557ae79be8c5a4f5d:adsfund.json:generic-api-key:6
